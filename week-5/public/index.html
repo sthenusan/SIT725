@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barter System</title>
+    <meta name="description" content="A simple barter system">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <nav>
+        <div class="nav-wrapper blue">
+            <a href="#" class="brand-logo center">Barter System</a>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li><a href="#">Add Item</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="row">
+            <div class="col s12 center-align">
+                <h1>Welcome to the Barter System</h1>
+                <p class="flow-text">Trade your items with others easily. Explore and list your items today!</p>
+            </div>
+        </div>
+
+        <!-- Dynamic Cards Section -->
+        <div class="row" id="card-section">
+        </div>
+
+        <!-- Button to Add More Items -->
+        <div class="row center-align">
+            <a class="waves-effect waves-light btn modal-trigger" id="addItemButton" data-target="modal1">
+                <i class="material-icons left">add</i> Add New Item
+            </a>
+        </div>
+
+
+        <div id="modal1" class="modal">
+            <div class="modal-content">
+                <h4>Add New Item</h4>
+                <form id="add-item-form">
+                    <div class="input-field">
+                        <input type="text" id="name" required>
+                        <label for="name">Item Name</label>
+                    </div>
+                    <div class="input-field">
+                        <textarea id="description" class="materialize-textarea" required></textarea>
+                        <label for="description">Description</label>
+                    </div>
+                    <div class="input-field">
+                        <input type="text" id="image" required>
+                        <label for="image">Image URL</label>
+                    </div>
+                    <div class="center-align">
+                        <button type="submit" class="btn blue waves-effect waves-light">Submit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
