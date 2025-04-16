@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const app = express();
 const PORT = 3000;
@@ -7,28 +8,21 @@ const PORT = 3000;
 app.use(bodyParser.json());
 app.use(express.static("public"));
 
-let items = [
-  {
-    name: "Laptop",
-    description: "A high-end laptop for trading.",
-    details: "Brand: Dell XPS 13, Core i7, 16GB RAM, 512GB SSD.",
-    image: "images/laptop.jpg",
-  },
-  {
-    name: "Bicycle",
-    description: "Mountain bike available for exchange.",
-    details: "Model: Giant Talon 1, 27.5-inch wheels, 18-speed.",
-    image: "images/bicycle.jpg",
-  },
-  {
-    name: "Guitar",
-    description: "Acoustic guitar in great condition.",
-    details: "Yamaha F310, Steel Strings, Excellent Sound.",
-    image: "images/guitar.jpg",
-  },
-];
+mongoose.connect("mongodb://localhost:27017/myAppData", {});
+mongoose.connection.on("connected", () => {
+  console.log("Connected to MongoDB!");
+});
 
-app.get("/api/items", (req, res) => {
+const ItemSchema = new mongoose.Schema({
+  name: String,
+  description: String,
+  details: String,
+  image: String,
+});
+const Items = mongoose.model("Items", ItemSchema);
+
+app.get("/api/items", async (req, res) => {
+  const items = await Items.find({});
   res.json({ statusCode: 200, data: items, message: "Success" });
 });
 
