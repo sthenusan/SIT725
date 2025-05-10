@@ -1,29 +1,33 @@
 const express = require("express");
 const app = express();
-const http = require("http").createServer(app); // Create HTTP server from app
-const io = require("socket.io")(http); // Pass http server to socket.io
+const http = require("http").createServer(app);
+const io = require("socket.io")(http);
 
-const PORT = process.env.PORT || 3000;
-
-// Serve static files from /public
 app.use(express.static("public"));
 
-// Socket connection logic
 io.on("connection", (socket) => {
-  console.log("A user connected");
+  console.log(`✅ New client connected: ${socket.id}`);
+  console.log(`👥 Total clients: ${io.engine.clientsCount}`);
 
+  // Notify all clients of the updated user count
+  io.emit("user-count", io.engine.clientsCount);
+
+  // Handle disconnection
   socket.on("disconnect", () => {
-    console.log("User disconnected");
+    console.log(`❌ Client disconnected: ${socket.id}`);
+    console.log(`👥 Total clients: ${io.engine.clientsCount}`);
+    io.emit("user-count", io.engine.clientsCount);
   });
 
-  // Emit random number every second
-  setInterval(() => {
-    const randomNum = Math.floor(Math.random() * 100);
-    socket.emit("number", randomNum);
-  }, 1000);
+  // Handle "request-number" event
+  socket.on("request-number", () => {
+    const num = Math.floor(Math.random() * 100);
+    console.log(`🔁 Number requested by ${socket.id} → ${num}`);
+    io.emit("number", num); // broadcast to all clients
+  });
 });
 
-// Start server
+const PORT = 3000;
 http.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
